@@ -4,7 +4,7 @@ class ListGroup extends Component {
   render() {
     const {
       items: Genres,
-      currentGenre,
+      SelectedGenre,
       textProperty,
       valueProperty,
       onGenreChange
@@ -15,7 +15,7 @@ class ListGroup extends Component {
         {Genres.map(genre => (
           <li
             className={
-              genre === currentGenre
+              genre === SelectedGenre
                 ? "list-group-item active"
                 : "list-group-item"
             }
