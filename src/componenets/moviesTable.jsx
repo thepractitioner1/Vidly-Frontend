@@ -19,6 +19,17 @@ class MoviesTable extends Component {
       content: movie => (
         <Like Liked={movie.liked} onClick={() => this.props.onLike(movie)} />
       )
+    },
+    {
+      key: "rentButton", content: movie => {
+        return (
+          <Link to={`/rent/${movie._id}`}>
+            <button className="btn btn-primary">
+              Rent
+          </button>
+          </Link>
+        )
+      }
     }
   ];
   deleteColumn = {

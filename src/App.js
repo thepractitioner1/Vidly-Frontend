@@ -10,6 +10,7 @@ import RegistrationForm from './componenets/registrationForm';
 import ProtectedRoute from './componenets/common/protectedRoute';
 import Logout from './componenets/logout';
 import LoginForm from './componenets/loginForm';
+import RentalForm from './componenets/rentalForm';
 import auth from "./services/authService"
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"
@@ -36,6 +37,7 @@ class App extends Component {
             <Route path="/logout" component={Logout} />
             <ProtectedRoute
               path="/movies/:id" component={MovieForm} />
+            <ProtectedRoute path="/rent/:id" component = {RentalForm}/>
             <Route path="/rentals" component={Rentals} />
             <Route path="/movies" render={props => <Movies {...props} user={this.state.user} />} />
             <Route path="/customers" component={Customer} />

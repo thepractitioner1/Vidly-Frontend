@@ -54,6 +54,10 @@ class Form extends Component {
     );
   };
 
+  // renderRentButton = label => {
+
+  // }
+
   renderInput(name, label, type = "text") {
     const { data, errors } = this.state;
     return (
