@@ -49,7 +49,7 @@ class RentalForm extends Component {
             const response = await payMerchant(code,movieId);
             console.log(response);
             if(response.data.status === 500 || response.data.status === 400 || response.data.status === 401) return window.location = '/notFound';
-            return window.location = "/"
+            return window.location = "/success"
         }catch(ex){
             if (ex.response && ex.response.status === 400 && ex.responsse.status === 500){
                 console.log("something failed")
