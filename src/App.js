@@ -37,7 +37,7 @@ class App extends Component {
             <Route path="/logout" component={Logout} />
             <ProtectedRoute
               path="/movies/:id" component={MovieForm} />
-            <ProtectedRoute path="/rent/:id" component = {RentalForm}/>
+            <ProtectedRoute path="/rent/getMovie/:id" component = {RentalForm}/>
             <Route path="/rentals" component={Rentals} />
             <Route path="/movies" render={props => <Movies {...props} user={this.state.user} />} />
             <Route path="/customers" component={Customer} />

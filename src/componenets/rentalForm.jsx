@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { getMovie } from "../services/movieService";
-import '../App.css'
+import qs from "query-string"
+import { payMerchant } from "../services/rentService.js"
 import { getGenreById } from "../services/genreService";
+
 
 class RentalForm extends Component {
     state = {
@@ -10,9 +12,11 @@ class RentalForm extends Component {
 
     async componentDidMount() {
 
+        const { match } = this.props;
+
         try {
 
-            const movieId = this.props.match.params.id;
+            const movieId = match.params.id;
             const { data: movie } = await getMovie(movieId)
             const { data: genre } = await getGenreById(movie.genre._id)
             console.log(genre);
@@ -35,6 +39,23 @@ class RentalForm extends Component {
             dailyRentalRate: movie.dailyRentalRate,
             genreName: genre.name
         };
+    }
+
+    async pay() {
+        try {
+            const { location, match } = this.props;
+            const { code } = qs.parse(location.search);
+            const movieId = match.params.id
+            const response = await payMerchant(code,movieId);
+            console.log(response);
+            if(response.data.status === 500 || response.data.status === 400 || response.data.status === 401) return window.location = '/notFound';
+            return window.location = "/"
+        }catch(ex){
+            if (ex.response && ex.response.status === 400 && ex.responsse.status === 500){
+                console.log("something failed")
+            }
+        }
+        
     }
 
 
@@ -82,11 +103,11 @@ class RentalForm extends Component {
                                     </tr>
                                 </tbody>
                             </table>
-                            <a href = "https://beta.mypaga.com/paga-webservices/oauth2/authorization?client_id=A3878DC1-F07D-48E7-AA59-8276C3C26647&response_type=code&redirect_uri=https://cryptic-fjord-22142.herokuapp.com/movies&state=state&scope=USER_DEPOSIT_FROM_CARD+MERCHANT_PAYMENT+USER_DETAILS_REQUEST&user_data=FIRST_NAME+LAST_NAME+USERNAME+EMAIL">
-                            <button className="btn btn-primary">
+
+
+                            <button onClick={()=>{this.pay()}} className="btn btn-primary">
                                 Rent
-                            </button>
-                            </a>
+                                </button>
                         </div>
                     </div>
 

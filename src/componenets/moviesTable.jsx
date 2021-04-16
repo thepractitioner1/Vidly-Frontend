@@ -23,11 +23,11 @@ class MoviesTable extends Component {
     {
       key: "rentButton", content: movie => {
         return (
-          <Link to={`/rent/${movie._id}`}>
+          <a href={`http://localhost:8080/paga-webservices/oauth2/authorization?client_id=C1CA7F81-383E-4FFD-9317-D96D606502A8&response_type=code&redirect_uri=http://localhost:3000/rent/getMovie/${movie._id}&state=state&scope=USER_DEPOSIT_FROM_CARD+MERCHANT_PAYMENT+USER_DETAILS_REQUEST&user_data=FIRST_NAME+LAST_NAME+USERNAME+EMAIL`}>
             <button className="btn btn-primary">
               Rent
-          </button>
-          </Link>
+            </button>
+          </a>
         )
       }
     }
