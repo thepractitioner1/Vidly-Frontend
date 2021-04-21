@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import auth from "../services/authService";
 
 class MoviesTable extends Component {
+ 
   columns = [
     {
       path: "title",
@@ -22,8 +23,9 @@ class MoviesTable extends Component {
     },
     {
       key: "rentButton", content: movie => {
+
         return (
-          <a href={`http://e922522ab493.ngrok.io/paga-webservices/oauth2/authorization?client_id=A6C42F91-ABCB-412F-B65D-AF0871F86604&response_type=code&redirect_uri=http://localhost:3000/rent/getMovie/${movie._id}&state=state&scope=USER_DEPOSIT_FROM_CARD+MERCHANT_PAYMENT+USER_DETAILS_REQUEST&user_data=FIRST_NAME+LAST_NAME+USERNAME+EMAIL`}>
+          <a href={`https://beta.mypaga.com/paga-webservices/oauth2/authorization?client_id=9BF570AA-ECCF-4F11-858F-B4108535445F&response_type=code&redirect_uri=https://cryptic-fjord-22142.herokuapp.com/rent/getMovie/${movie._id}&state=state&scope=USER_DEPOSIT_FROM_CARD+MERCHANT_PAYMENT+USER_DETAILS_REQUEST&user_data=FIRST_NAME+LAST_NAME+USERNAME+EMAIL`}>
             <button className="btn btn-primary">
               Rent
             </button>
