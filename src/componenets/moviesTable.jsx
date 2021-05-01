@@ -63,5 +63,4 @@ class MoviesTable extends Component {
     );
   }
 }
-
 export default MoviesTable;
