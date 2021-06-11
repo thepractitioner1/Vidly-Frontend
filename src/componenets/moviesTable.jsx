@@ -25,11 +25,11 @@ class MoviesTable extends Component {
       key: "rentButton", content: movie => {
 
         return (
-          <a href={`https://beta.mypaga.com/paga-webservices/oauth2/authorization?client_id=9BF570AA-ECCF-4F11-858F-B4108535445F&response_type=code&redirect_uri=https://cryptic-fjord-22142.herokuapp.com/rent/getMovie/${movie._id}&state=state&scope=USER_DEPOSIT_FROM_CARD+MERCHANT_PAYMENT+USER_DETAILS_REQUEST&user_data=FIRST_NAME+LAST_NAME+USERNAME+EMAIL`}>
+          <Link to = {`/rent/getMovie/${movie._id}`}>
             <button className="btn btn-primary">
               Rent
             </button>
-          </a>
+          </Link>
         )
       }
     }
