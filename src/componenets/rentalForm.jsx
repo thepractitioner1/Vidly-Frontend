@@ -1,13 +1,34 @@
-import React, { Component } from "react";
+import React from "react";
 import { getMovie } from "../services/movieService";
 import qs from "query-string"
-import { payMerchant } from "../services/rentService.js"
+import { createPaymentRequest, payMerchant } from "../services/rentService.js"
 import { getGenreById } from "../services/genreService";
+import Joi from "joi-browser";
+import Form from "./common/form";
 
 
-class RentalForm extends Component {
+class RentalForm extends Form {
     state = {
-        movie: { title: "", genreId: "", numberInStock: "", dailyRentalRate: "", genreName: "" },
+        data: { fullName: "", phoneNumber: "", email: "", paymentMethod: "" },
+        errors: {},
+        paymentMethod: [{ name: "BANK_TRANSFER" }, { name: "FUNDING_USSD" }]
+    };
+
+    schema = {
+        fullName: Joi.string()
+            .required()
+            .label("Full name"),
+        phoneNumber: Joi.string()
+            .required()
+            .label("Phone Number"),
+        email: Joi.string()
+            .email()
+            .required()
+            .label("Email"),
+
+        paymentMethod: Joi.string()
+            .required()
+            .label("Select Payment Method"),
     };
 
     async componentDidMount() {
@@ -41,21 +62,29 @@ class RentalForm extends Component {
         };
     }
 
-    async pay() {
+    async doSubmit() {
         try {
             const { location, match } = this.props;
-            const { code } = qs.parse(location.search);
+            // const { code } = qs.parse(location.search);
             const movieId = match.params.id
-            const response = await payMerchant(code,movieId);
+            const{fullName, phoneNumber, email, paymentMethod} = this.state.data
+            const requestData = {
+                name: fullName,
+                phoneNumber,
+                email,
+                paymentMethod,
+                movieId
+            }
+            const response = await createPaymentRequest(requestData);
             console.log(response);
-            if(response.data.status === 500 || response.data.status === 400 || response.data.status === 401) return window.location = '/notFound';
-            return window.location = "/success"
-        }catch(ex){
-            if (ex.response && ex.response.status === 400 && ex.responsse.status === 500){
+            if (response.data.status === 500 || response.data.status === 400 || response.data.status === 401) return window.location = '/notFound';
+            return window.location = `/success/${response.data.orderId}`
+        } catch (ex) {
+            if (ex.response && ex.response.status === 400 && ex.responsse.status === 500) {
                 console.log("something failed")
             }
         }
-        
+
     }
 
 
@@ -75,43 +104,14 @@ class RentalForm extends Component {
         } = this.state;
 
         return (
-            <div style={{ backgroundColor: "#f1f3f5" }}>
-                <div style={myStyle} align="center">
-
-                    <div className="card" style={{ width: "30%", boxShadow: "0px 3px 6px rgba(0, 0, 0, 0.2)" }}>
-                        <div className="card-body">
-                            <table className="table table-borderless" align="center">
-                                <tbody align="center">
-                                    <tr>
-                                        <td>Title</td>
-                                        <td>{movie.title}</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>Genre</td>
-                                        <td>{movie.genreName}</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>Number Available</td>
-                                        <td>{movie.numberInStock}</td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>Rental Rate</td>
-                                        <td>${movie.dailyRentalRate}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-
-                            <button onClick={()=>{this.pay()}} className="btn btn-primary">
-                                Rent
-                                </button>
-                        </div>
-                    </div>
-
-                </div>
+            <div>
+                <form onSubmit={this.handleSubmit}>
+                    {this.renderInput("fullName", "Full Name")}
+                    {this.renderInput("phoneNumber", "Phone Number")}
+                    {this.renderInput("email", "Email", "Email")}
+                    {this.renderSelectedInput(this.state.paymentMethod, "paymentMethod", "Select Payment Method")}
+                    {this.renderButton("Submit Payment Request")}
+                </form>
             </div>
         );
     }
