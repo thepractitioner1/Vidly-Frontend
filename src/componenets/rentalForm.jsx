@@ -1,7 +1,6 @@
 import React from "react";
 import { getMovie } from "../services/movieService";
-import qs from "query-string"
-import { createPaymentRequest, payMerchant } from "../services/rentService.js"
+import { createPaymentRequest } from "../services/rentService.js"
 import { getGenreById } from "../services/genreService";
 import Joi from "joi-browser";
 import Form from "./common/form";
@@ -59,10 +58,10 @@ class RentalForm extends Form {
 
     async doSubmit() {
         try {
-            const { location, match } = this.props;
+            const { match } = this.props;
             // const { code } = qs.parse(location.search);
             const movieId = match.params.id
-            const{fullName, phoneNumber, email, paymentMethod} = this.state.data
+            const{fullName, phoneNumber, email} = this.state.data
             const requestData = {
                 name: fullName,
                 phoneNumber,
@@ -84,19 +83,6 @@ class RentalForm extends Form {
 
 
     render() {
-        const myStyle = {
-
-            position: "fixed",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: "70%",
-        }
-
-        const {
-            movie,
-        } = this.state;
-
         return (
             <div>
                 <form onSubmit={this.handleSubmit}>
