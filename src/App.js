@@ -16,6 +16,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"
 import "./App.css";
 import SuccessPage from "./componenets/success";
+import RentalInformation from "./componenets/rentalInformation";
 
 class App extends Component {
   state = {
@@ -37,6 +38,7 @@ class App extends Component {
             <Route path="/login" component={LoginForm} />
             <Route path="/logout" component={Logout} />
             <ProtectedRoute path="/success/:id" component={SuccessPage}/>
+            <ProtectedRoute path="/rentPreview/:id" component={RentalInformation}/>
             <ProtectedRoute
               path="/movies/:id" component={MovieForm} />
             <ProtectedRoute path="/rent/getMovie/:id" component = {RentalForm}/>

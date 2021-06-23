@@ -9,9 +9,8 @@ import Form from "./common/form";
 
 class RentalForm extends Form {
     state = {
-        data: { fullName: "", phoneNumber: "", email: "", paymentMethod: "" },
+        data: { fullName: "", phoneNumber: "", email: "" },
         errors: {},
-        paymentMethod: [{ name: "BANK_TRANSFER" }, { name: "FUNDING_USSD" }]
     };
 
     schema = {
@@ -24,11 +23,7 @@ class RentalForm extends Form {
         email: Joi.string()
             .email()
             .required()
-            .label("Email"),
-
-        paymentMethod: Joi.string()
-            .required()
-            .label("Select Payment Method"),
+            .label("Email")
     };
 
     async componentDidMount() {
@@ -72,13 +67,12 @@ class RentalForm extends Form {
                 name: fullName,
                 phoneNumber,
                 email,
-                paymentMethod,
                 movieId
             }
             const response = await createPaymentRequest(requestData);
             console.log(response);
             if (response.data.status === 500 || response.data.status === 400 || response.data.status === 401) return window.location = '/notFound';
-            return window.location = `/success/${response.data.orderId}`
+            return window.location = `/rentPreview/${response.data.orderId}`
         } catch (ex) {
             if (ex.response && ex.response.status === 400 && ex.responsse.status === 500) {
                 console.log("something failed")
@@ -109,8 +103,7 @@ class RentalForm extends Form {
                     {this.renderInput("fullName", "Full Name")}
                     {this.renderInput("phoneNumber", "Phone Number")}
                     {this.renderInput("email", "Email", "Email")}
-                    {this.renderSelectedInput(this.state.paymentMethod, "paymentMethod", "Select Payment Method")}
-                    {this.renderButton("Submit Payment Request")}
+                    {this.renderButton("Pay")}
                 </form>
             </div>
         );

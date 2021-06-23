@@ -1,0 +1,19 @@
+ .listGroup{
+    list-style-type: none; /* Remove bullets */
+    padding: 0; /* Remove padding */
+    margin: 0; /* Remove margins */
+    border-radius: 5px;
+  }
+  
+  .listGroupItem {
+    border: 0; /* Add a thin border to each list item */
+    margin-top: -1px; /* Prevent double borders */
+    background-color: #f6f6f6; /* Add a grey background color */
+    padding: 12px; /* Add some padding */
+  }
+
+  .listGroupItemActive {
+      background-color: #007bff;
+      color: white;
+      padding: 12px; /* Add some padding */
+  }
